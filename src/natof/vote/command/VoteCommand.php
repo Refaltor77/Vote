@@ -21,7 +21,7 @@ use pocketmine\utils\Config;
 class VoteCommand extends Command
 {
     
-    function file_get_contents_curl( $url ) {
+    public function file_get_contents_curl( $url ) {
 
   $ch = curl_init();
 
@@ -42,7 +42,7 @@ class VoteCommand extends Command
     {
         if (!$sender instanceof Player) return;
         $data = new Config(Vote::getInstance()->getDataFolder() . "data/data.json", Config::JSON);
-        $json = json_decode(file_get_contents_curl("https://vote.minelance.fr/api/v1/vote/check/" . $data->get("key") . "/" . strtolower($sender->getName())));
+        $json = json_decode($this->file_get_contents_curl("https://vote.minelance.fr/api/v1/vote/check/" . $data->get("key") . "/" . strtolower($sender->getName())));
         if (isset($args[0])) {
             if ($args[0] == "setup") {
                 if (Server::getInstance()->isOp($sender->getName()) || $sender->hasPermission("vote.use")) {
